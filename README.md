@@ -159,4 +159,60 @@ location / {
 
 2. В качестве решения пришлите получившийся файл.
 
-#### .yaml
+#### .yaml:
+
+configmap.yaml
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-configmap
+data:
+  nginx.conf: |
+    location / {
+      add_header Content-Type text/plain;
+      return 200 'Hello from k9s';
+    }
+```
+---
+deploument.yaml
+```
+kind: deployment
+metadata:
+ name: nginx-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-configmap
+```
+---
+ingress.yaml
+```
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /test
+            backend:
+              serviceName: nginx-service
+              servicePort: 80
+```
