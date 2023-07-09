@@ -86,7 +86,6 @@ spec:
 ```
 
 ```
----
 apiVersion: v1
 kind: Service
 metadata:
@@ -118,6 +117,20 @@ spec:
 
 2. В качестве решения пришлите получившиеся команды.
 
+#### Команты:
+sudo kubectl exec redis-7bfccd74cd-8bhrk -- ps aux
+
+sudo kubectl logs --since=5m redis-7bfccd74cd-8bhrk
+
+sudo kubectl delete -f redis.yaml && sudo kubectl delete -f redis-service.yaml
+
+sudo kubectl port-forward redis-7bfccd74cd-jpg8j 12345:6739
+
+#### Скриншот:
+![3 2](https://github.com/AleksandrNiylek/-Kubernetes.-1-/assets/136619576/a14f270c-3a7c-4146-a3df-d6e460dbc5e5)
+
+
+
 ------
 ## Дополнительные задания* (со звёздочкой)
 
@@ -145,3 +158,5 @@ location / {
  - Ingress, который будет направлять запросы по префиксу /test на наш сервис.
 
 2. В качестве решения пришлите получившийся файл.
+
+#### .yaml
